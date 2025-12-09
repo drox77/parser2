@@ -26,18 +26,18 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# 🔑 ТОКЕН БОТА
+# 🔑 ТОКЕН БОТА (БЕЗ ПРОБЕЛОВ!)
 BOT_TOKEN = os.environ.get("BOT_TOKEN", "8235636216:AAG0NW9iCOMtL1Di5Uik4zK0hPdB-y24yg0")
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 
-# 🎁 NFT GIFTS КОЛЛЕКЦИИ (из твоих ссылок)
+# 🎁 ВСЕ NFT GIFTS КОЛЛЕКЦИИ (все 30 которые ты дал)
 NFT_GIFT_COLLECTIONS = {
     "snoop-dogg": {
         "name": "🐕 Snoop Dogg",
         "base_url": "https://t.me/nft/SnoopDogg-",
         "max_number": 577000,
-        "sample_size": 50  # Сколько NFT проверять
+        "sample_size": 50
     },
     "swag-bag": {
         "name": "🎒 Swag Bag",
@@ -123,6 +123,96 @@ NFT_GIFT_COLLECTIONS = {
         "max_number": 95000,
         "sample_size": 25
     },
+    "bow-tie": {
+        "name": "🎀 Bow Tie",
+        "base_url": "https://t.me/nft/BowTie-",
+        "max_number": 53000,
+        "sample_size": 20
+    },
+    "light-sword": {
+        "name": "⚔️ Light Sword",
+        "base_url": "https://t.me/nft/LightSword-",
+        "max_number": 123000,
+        "sample_size": 30
+    },
+    "fresh-socks": {
+        "name": "🧦 Fresh Socks",
+        "base_url": "https://t.me/nft/FreshSocks-",
+        "max_number": 152000,
+        "sample_size": 30
+    },
+    "input-key": {
+        "name": "🔑 Input Key",
+        "base_url": "https://t.me/nft/InputKey-",
+        "max_number": 122000,
+        "sample_size": 30
+    },
+    "lunar-snake": {
+        "name": "🌙🐍 Lunar Snake",
+        "base_url": "https://t.me/nft/LunarSnake-",
+        "max_number": 180000,
+        "sample_size": 35
+    },
+    "big-year": {
+        "name": "📅 Big Year",
+        "base_url": "https://t.me/nft/BigYear-",
+        "max_number": 71000,
+        "sample_size": 25
+    },
+    "pet-snake": {
+        "name": "🐍 Pet Snake",
+        "base_url": "https://t.me/nft/PetSnake-",
+        "max_number": 160000,
+        "sample_size": 30
+    },
+    "snake-box": {
+        "name": "📦🐍 Snake Box",
+        "base_url": "https://t.me/nft/SnakeBox-",
+        "max_number": 156000,
+        "sample_size": 30
+    },
+    "winter-wreath": {
+        "name": "🎄 Winter Wreath",
+        "base_url": "https://t.me/nft/WinterWreath-",
+        "max_number": 67000,
+        "sample_size": 25
+    },
+    "ginger-cookie": {
+        "name": "🍪 Ginger Cookie",
+        "base_url": "https://t.me/nft/GingerCookie-",
+        "max_number": 135000,
+        "sample_size": 30
+    },
+    "snow-globe": {
+        "name": "🔮 Snow Globe",
+        "base_url": "https://t.me/nft/SnowGlobe-",
+        "max_number": 49000,
+        "sample_size": 20
+    },
+    "star-notepad": {
+        "name": "📓 Star Notepad",
+        "base_url": "https://t.me/nft/StarNotepad-",
+        "max_number": 66000,
+        "sample_size": 25
+    },
+    "jelly-bunny": {
+        "name": "🐰 Jelly Bunny",
+        "base_url": "https://t.me/nft/JellyBunny-",
+        "max_number": 98000,
+        "sample_size": 25
+    },
+    "lol-pop": {
+        "name": "🍭 Lol Pop",
+        "base_url": "https://t.me/nft/LolPop-",
+        "max_number": 427000,
+        "sample_size": 50
+    },
+    "desk-calendar": {
+        "name": "📅 Desk Calendar",
+        "base_url": "https://t.me/nft/DeskCalendar-",
+        "max_number": 339000,
+        "sample_size": 45
+    },
 }
 
 # История парсинга
@@ -133,7 +223,7 @@ def get_main_keyboard():
     buttons = [
         [InlineKeyboardButton(text="🔍 НАЙТИ ВЛАДЕЛЬЦЕВ NFT", callback_data="start_parsing")],
         [InlineKeyboardButton(text="📊 ИСТОРИЯ ПАРСИНГА", callback_data="show_history")],
-        [InlineKeyboardButton(text="🎁 ВСЕ КОЛЛЕКЦИИ", callback_data="all_collections")],
+        [InlineKeyboardButton(text="🎁 ВСЕ КОЛЛЕКЦИИ (30)", callback_data="all_collections")],
         [InlineKeyboardButton(text="⚡ БЫСТРЫЙ ПАРСИНГ", callback_data="quick_parse")]
     ]
     return InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -338,15 +428,15 @@ class NFTGiftParser:
 @dp.message(Command("start"))
 async def cmd_start(message: Message):
     welcome_text = (
-        "🎁 <b>NFT GIFT OWNERS PARSER</b>\n\n"
-        "<b>ИЩУ ВЛАДЕЛЬЦЕВ NFT GIFTS ПО ССЫЛКАМ:</b>\n\n"
+        "🎁 <b>NFT GIFT OWNERS PARSER v2.0</b>\n\n"
+        "<b>ИЩУ ВЛАДЕЛЬЦЕВ 30 NFT GIFTS КОЛЛЕКЦИЙ:</b>\n\n"
         "• 🐕 Snoop Dogg (до 577,000 NFT)\n"
-        "• 🎒 Swag Bag (до 230,000 NFT)\n"
-        "• 🚬 Snoop Cigar (до 116,000 NFT)\n"
+        "• 🍭 Lol Pop (до 427,000 NFT)\n"
         "• 🍦 Ice Cream (до 319,000 NFT)\n"
-        "• 🥚 Easter Egg (до 160,000 NFT)\n\n"
-        "<i>Проверяю случайные NFT из коллекции</i>\n"
-        "<i>Нахожу реальных владельцев</i>"
+        "• 📅 Desk Calendar (до 339,000 NFT)\n"
+        "• 🎒 Swag Bag (до 230,000 NFT)\n\n"
+        "<i>Всего 30 коллекций NFT Gifts</i>\n"
+        "<i>Проверяет случайные NFT из каждой коллекции</i>"
     )
     await message.answer(welcome_text, reply_markup=get_main_keyboard())
 
@@ -354,27 +444,34 @@ async def cmd_start(message: Message):
 async def on_start_parsing(callback: CallbackQuery):
     await callback.message.edit_text(
         "🎁 <b>ВЫБЕРИТЕ NFT GIFT КОЛЛЕКЦИЮ:</b>\n\n"
+        "<i>30 коллекций на выбор</i>\n"
         "<i>Бот проверит случайные NFT из коллекции</i>",
         reply_markup=get_collections_keyboard()
     )
 
 @dp.callback_query(F.data == "all_collections")
 async def on_all_collections(callback: CallbackQuery):
-    collections_text = ""
-    for coll_id, coll_data in NFT_GIFT_COLLECTIONS.items():
+    collections_text = "<b>📋 ВСЕ 30 КОЛЛЕКЦИЙ NFT GIFTS:</b>\n\n"
+    
+    # Показываем все коллекции с номерами
+    for i, (coll_id, coll_data) in enumerate(NFT_GIFT_COLLECTIONS.items(), 1):
         total = f"{coll_data['max_number']:,}".replace(",", " ")
-        collections_text += f"• {coll_data['name']} (до {total} NFT)\n"
+        collections_text += f"{i:2d}. {coll_data['name']} (до {total} NFT)\n"
+    
+    collections_text += f"\n<i>Всего коллекций: {len(NFT_GIFT_COLLECTIONS)}</i>"
     
     await callback.message.edit_text(
-        f"📊 <b>ВСЕ КОЛЛЕКЦИИ NFT GIFTS:</b>\n\n{collections_text}\n"
-        "<i>Выберите для парсинга</i>",
-        reply_markup=get_collections_keyboard()
+        collections_text,
+        reply_markup=InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(text="🔍 НАЧАТЬ ПАРСИНГ", callback_data="start_parsing")],
+            [InlineKeyboardButton(text="🔙 НАЗАД", callback_data="back_to_main")]
+        ])
     )
 
 @dp.callback_query(F.data == "quick_parse")
 async def on_quick_parse(callback: CallbackQuery):
     """Быстрый парсинг популярных коллекций"""
-    popular = ["snoop-dogg", "ice-cream", "swag-bag", "money-pot", "stellar-rocket"]
+    popular = ["snoop-dogg", "ice-cream", "lol-pop", "desk-calendar", "swag-bag"]
     
     buttons = []
     for coll_id in popular:
@@ -400,7 +497,7 @@ async def on_custom_parse(callback: CallbackQuery):
         "Примеры:\n"
         "• https://t.me/nft/SnoopDogg-123456\n"
         "• https://t.me/nft/IceCream-78901\n"
-        "• https://t.me/nft/SwagBag-45678\n\n"
+        "• https://t.me/nft/LolPop-45678\n\n"
         "<i>Бот найдёт владельца этого NFT</i>",
         reply_markup=InlineKeyboardMarkup(inline_keyboard=[
             [InlineKeyboardButton(text="🔙 Назад", callback_data="start_parsing")]
@@ -445,7 +542,7 @@ async def on_parse_nft_gift(callback: CallbackQuery):
             "found_owners": len(owners),
             "time": elapsed_time,
             "owners": owners[:20],
-            "sample_urls": checked_urls[:5],  # Сохраняем несколько примеров URL
+            "sample_urls": checked_urls[:5],
             "timestamp": time.time()
         })
         
@@ -643,53 +740,7 @@ async def on_show_history(callback: CallbackQuery):
         history_text,
         reply_markup=InlineKeyboardMarkup(inline_keyboard=[
             [InlineKeyboardButton(text="🗑️ ОЧИСТИТЬ ИСТОРИЮ", callback_data="clear_history")],
-            [InlineKeyboardButton(text="🔙 НАЗАД", callback_data="back_to_main")]
-        ])
-    )
-
-@dp.callback_query(F.data == "clear_history")
-async def on_clear_history(callback: CallbackQuery):
-    parsing_history.clear()
-    await callback.message.edit_text(
-        "✅ <b>История очищена!</b>",
-        reply_markup=get_main_keyboard()
-    )
-
-@dp.callback_query(F.data == "back_to_main")
-async def on_back_to_main(callback: CallbackQuery):
-    await cmd_start(callback.message)
-
-@dp.message()
-async def handle_unknown(message: Message):
-    await message.answer(
-        "🎁 <b>NFT GIFT OWNERS PARSER</b>\n\n"
-        "Используйте кнопки меню или команду /start",
-        reply_markup=get_main_keyboard()
-    )
-
-# 🚀 ЗАПУСК
-async def main():
-    logger.info("=" * 50)
-    logger.info("🎁 ЗАПУСК NFT GIFT OWNERS PARSER")
-    logger.info(f"🤖 Токен бота: ✅")
-    logger.info(f"📦 Коллекций NFT Gifts: {len(NFT_GIFT_COLLECTIONS)}")
-    logger.info("=" * 50)
-    
-    try:
-        # Очистка вебхуков
-        await bot.delete_webhook(drop_pending_updates=True)
-        
-        # Проверка бота
-        me = await bot.get_me()
-        logger.info(f"✅ Бот запущен: @{me.username}")
-        
-        # Запуск
-        logger.info("🚀 Запускаю парсер NFT Gifts...")
-        await dp.start_polling(bot, allowed_updates=dp.resolve_used_update_types())
-        
-    except Exception as e:
-        logger.error(f"❌ ОШИБКА: {e}")
-        sys.exit(1)
-
+            [InlineKeyboardButton(text="🔙 НАЗАД",
 if __name__ == "__main__":
     asyncio.run(main())
+
