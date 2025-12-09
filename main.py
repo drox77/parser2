@@ -26,8 +26,14 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-# 🔑 ТОКЕН БОТА (БЕЗ ПРОБЕЛОВ!)
-BOT_TOKEN = os.environ.get("BOT_TOKEN", "8235636216:AAG0NW9iCOMtL1Di5Uik4zK0hPdB-y24yg0")
+# 🔑 ТОКЕН БОТА (ПРАВИЛЬНО БЕЗ ПРОБЕЛОВ!)
+BOT_TOKEN = os.environ.get("BOT_TOKEN")
+if not BOT_TOKEN:
+    BOT_TOKEN = "8235636216:AAG0NW9iCOMtL1Di5Uik4zK0hPdB-y24yg0"
+
+# Убираем возможные пробелы
+BOT_TOKEN = BOT_TOKEN.strip()
+
 bot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 dp = Dispatcher()
 
@@ -790,3 +796,4 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
+
